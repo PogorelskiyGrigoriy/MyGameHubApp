@@ -1,8 +1,12 @@
 export type Game = {
-    id: number;
-    name: string;
-}
+  id: number;
+  name: string;
+  background_image: string; 
+  rating: number;           
+  metacritic: number;       
+};
 
 export type FetchResponse = {
-    results: Game[];
-}
+  count: number;            
+  results: Game[];
+};
