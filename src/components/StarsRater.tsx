@@ -2,16 +2,16 @@ import { HStack, Icon } from "@chakra-ui/react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 interface Props {
-  rating: number; // получаем, например, 4.5
+  rating: number; 
 }
 
 const StarsRater = ({ rating }: Props) => {
-  // Создаем массив из 5 элементов
   const stars = Array.from({ length: 5 }, (_, i) => {
-    const index = i + 1;
-    if (rating >= index) {
+    const diff = rating - i;
+
+    if (diff > 0.75) {
       return <Icon key={i} as={FaStar} color="yellow.400" />;
-    } else if (rating >= index - 0.5) {
+    } else if (diff > 0.25) {
       return <Icon key={i} as={FaStarHalfAlt} color="yellow.400" />;
     } else {
       return <Icon key={i} as={FaRegStar} color="gray.300" />;
