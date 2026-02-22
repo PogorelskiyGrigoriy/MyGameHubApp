@@ -5,6 +5,7 @@ interface Props {
   game: Game;
 }
 
+// Компонент для отображения информации об игре
 const GameCard = ({ game }: Props) => {
   return (
     <Card.Root borderRadius={10} overflow="hidden">

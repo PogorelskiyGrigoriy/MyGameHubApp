@@ -6,7 +6,6 @@ export type Game = {
   metacritic: number;       
 };
 
-export type FetchResponse = {
-  count: number;            
+export type FetchResponse = {          
   results: Game[];
 };

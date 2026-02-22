@@ -8,6 +8,7 @@ const apiClient: AxiosInstance =  axios.create({
   },
 });
 
+// Функция для получения игр, скрывает детали реализации 
 export const getGames = () => {
     return apiClient.get<FetchResponse>("games").then(res => res.data.results);
 }
