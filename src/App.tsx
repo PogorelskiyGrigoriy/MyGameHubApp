@@ -10,10 +10,6 @@ function App() {
         base: '"nav" "main"',
         md: '"nav nav" "aside main"',
       }}
-      templateColumns={{
-        base: "1fr", // На мобильных одна колонка во всю ширину
-        md: "max-content 1fr" // Aside по размеру контента, Main забирает остаток
-      }}
     >
       <GridItem area="nav">
         <Nav />
