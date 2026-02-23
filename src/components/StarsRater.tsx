@@ -2,7 +2,7 @@ import { HStack, Icon } from "@chakra-ui/react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 interface Props {
-  rating: number; 
+  rating: number;
 }
 
 const StarsRater = ({ rating }: Props) => {
@@ -13,12 +13,11 @@ const StarsRater = ({ rating }: Props) => {
       return <Icon key={i} as={FaStar} color="yellow.400" />;
     } else if (diff > 0.25) {
       return <Icon key={i} as={FaStarHalfAlt} color="yellow.400" />;
-    } else {
-      return <Icon key={i} as={FaRegStar} color="gray.300" />;
-    }
+    } return <Icon key={i} as={FaRegStar} color="gray.300" />;
+
   });
 
-  return <HStack gap={1}>{stars} {rating.toFixed(2)}</HStack>;
+  return <HStack gap={1}>{stars}</HStack>;
 };
 
 export default StarsRater;
