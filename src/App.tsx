@@ -12,7 +12,7 @@ function App() {
       }}
       templateColumns={{
         base: "1fr",
-        md: "200px 1fr",
+        md: "220px 1fr",
       }}
     >
       <GridItem area="nav">
@@ -22,8 +22,7 @@ function App() {
       <GridItem area="aside" paddingX={5} hideBelow="md">
         <Box
           height="calc(100vh - 80px)"
-          overflowY="auto"
-          overflowX="hidden" // Убираем горизонтальный скролл полностью
+          overflowY="auto"       
           position="sticky"
           top="80px"
           pr={2}

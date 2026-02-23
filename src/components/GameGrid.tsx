@@ -1,17 +1,10 @@
-import React from "react";
 import { SimpleGrid } from "@chakra-ui/react";
-import { getGames } from "@/services/api-client"; // Импортируем готовую функцию
-import { type Game } from "@/models/fetch-types";
 import GameCard from "./GameCard";
+import useGame from "@/services/hooks/useGame";
 
 
 const GameGrid = () => {
-  const [games, setGames] = React.useState<Game[]>([]);
-
-  React.useEffect(() => {
-    // Просто вызываем функцию, логика ключа и эндпоинта скрыта внутри сервиса
-    getGames().then((data) => setGames(data));
-  }, []);
+  const games = useGame
 
   return (
     <SimpleGrid

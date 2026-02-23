@@ -25,7 +25,8 @@ export interface ParentPlatform {
   platform: Platform;
 }
 
-export type FetchResponse = {
-  results: Game[];
-};
+export interface FetchResponse<T> {
+  count: number;
+  results: T[]; 
+}
 
