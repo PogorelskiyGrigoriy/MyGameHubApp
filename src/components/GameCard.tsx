@@ -1,5 +1,5 @@
-import { Card, Image, Heading, Box} from "@chakra-ui/react";
-import {type Game } from "../models/fetch-types";
+import { Card, Image, Heading, Box } from "@chakra-ui/react";
+import { type Game } from "../models/fetch-types";
 import CriticScore from "./MetacriticScore";
 import StarsRater from "./StarsRater";
 
@@ -11,13 +11,22 @@ interface Props {
 const GameCard = ({ game }: Props) => {
   return (
     <Card.Root borderRadius={10} overflow="hidden">
-      <Image src={game.background_image} alt={game.name} />
+      <Image
+        src={game.background_image}
+        alt={game.name}
+        height="200px"
+        width="100%"
+        objectFit="cover"
+        objectPosition="top"
+      />
       <Card.Body>
-        <Heading fontSize="2xl" mb={2}>{game.name}</Heading>
-        
+        <Heading fontSize="2xl" mb={2}>
+          {game.name}
+        </Heading>
+
         <Box display="flex" justifyContent="space-between" alignItems="center">
-            <StarsRater rating={game.rating} />
-            <CriticScore metacritic={game.metacritic} />
+          <StarsRater rating={game.rating} />
+          <CriticScore metacritic={game.metacritic} />
         </Box>
       </Card.Body>
     </Card.Root>

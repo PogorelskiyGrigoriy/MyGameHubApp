@@ -18,7 +18,7 @@ const StarsRater = ({ rating }: Props) => {
     }
   });
 
-  return <HStack gap={1}>{stars}</HStack>;
+  return <HStack gap={1}>{stars} {rating.toFixed(2)}</HStack>;
 };
 
 export default StarsRater;

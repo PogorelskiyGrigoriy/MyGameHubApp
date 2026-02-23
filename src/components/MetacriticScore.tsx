@@ -14,8 +14,15 @@ const CriticScore = ({ metacritic }: Props) => {
       backgroundColor={bgColor}
       color={textColor}
       fontSize="14px"
-      paddingX={2}
-      borderRadius="4px"
+      fontWeight="bold"
+      borderRadius="full"
+      width="35px"
+      height="35px"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      textAlign="center"
+      padding={0}
     >
       {metacritic}
     </Badge>
