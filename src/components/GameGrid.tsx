@@ -1,15 +1,15 @@
-import { SimpleGrid, Spinner } from "@chakra-ui/react";
+import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import GameCard from "./GameCard";
 import useGame from "@/services/hooks/useGame";
 
 
 const GameGrid = () => {
-  const {data: games, isLoading} = useGame()
+  const {data: games, isLoading, error} = useGame()
 
   return (
     <>
-    {isLoading && <Spinner></Spinner>}
-      <SimpleGrid
+    {isLoading && <Spinner>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</Spinner>}
+     {error ? <Text color="red" fontSize={"3rem"} fontWeight={"bold"}>{error}</Text> : <SimpleGrid
         columns={{ base: 1, sm: 2, md: 2, lg: 3 }}
         gap={6}
         padding="10px"
@@ -19,7 +19,7 @@ const GameGrid = () => {
         {games.map((game) => (
           <GameCard key={game.id} game={game} />
         ))}
-      </SimpleGrid>
+      </SimpleGrid>}
     </>
   );
 };

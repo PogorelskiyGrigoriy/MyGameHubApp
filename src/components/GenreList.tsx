@@ -2,12 +2,12 @@ import { List, Text, HStack, Avatar, Button, Spinner } from "@chakra-ui/react";
 import useGenre from "@/services/hooks/useGenre";
 
 const GenreList = () => {
-  const {data: genres, isLoading} = useGenre();
+  const {data: genres, isLoading,error} = useGenre();
 
   return (
     <>
-    {isLoading && <Spinner></Spinner>}
-      <List.Root variant="plain">
+    {isLoading && <Spinner>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</Spinner>}
+     {error ? <Text color="red" fontSize={"3rem"} fontWeight={"bold"}>{error}</Text> : <List.Root variant="plain">
         {genres.map((genre) => (
           <List.Item key={genre.id} mb={3}>
             <HStack gap={1} align="center" width="full">
@@ -35,7 +35,7 @@ const GenreList = () => {
             </HStack>
           </List.Item>
         ))}
-      </List.Root>
+      </List.Root>}
     </>
   );
 };
