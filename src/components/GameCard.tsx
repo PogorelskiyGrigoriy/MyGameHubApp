@@ -26,7 +26,7 @@ const GameCard = ({ game }: Props) => {
         </Heading>
 
         <VStack alignItems="start" gap={3}>
-          <HStack justifyContent="space-between" width="100%" gap={5}>
+          <HStack justifyContent="space-between" width="100%" gap={3}>
             <CriticScore metacritic={game.metacritic} />
             <PlatformList platforms={game.parent_platforms} />
           </HStack>

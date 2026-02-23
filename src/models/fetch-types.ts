@@ -7,6 +7,14 @@ export interface Game {
   parent_platforms: ParentPlatform[];
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number,
+  image_background: string
+}
+
 export interface Platform {
   id: number;
   name: string;
@@ -17,6 +25,7 @@ export interface ParentPlatform {
   platform: Platform;
 }
 
-export type FetchResponse = {          
+export type FetchResponse = {
   results: Game[];
 };
+
