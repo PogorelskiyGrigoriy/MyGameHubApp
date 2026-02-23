@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { List, Text, HStack, Avatar } from "@chakra-ui/react";
+import { List, Text, HStack, Avatar, Button } from "@chakra-ui/react";
 import apiClient from "../services/api-client";
 import {type Genre } from "../models/fetch-types";
 
@@ -21,20 +21,34 @@ const GenreList = () => {
     <List.Root variant="plain">
       {genres.map((genre) => (
         <List.Item key={genre.id} mb={3}>
-          <HStack gap={3}>
-            {/* Аватар для картинки жанра */}
-            <Avatar.Root size="sm">
+          <HStack gap={1} align="center" width="full">
+            
+            {/* Аватар вынесен за пределы кнопки */}
+            <Avatar.Root size="sm" flexShrink={0}>
               <Avatar.Image 
                 src={genre.image_background} 
-                objectFit="cover" // Чтобы картинка не растягивалась
+                objectFit="cover" 
               />
-              {/* Заглушка, если картинка не загрузится (первая буква названия) */}
               <Avatar.Fallback name={genre.name} />
             </Avatar.Root>
 
-            <Text fontSize="lg" fontWeight="medium">
-              {genre.name}
-            </Text>
+            {/* Кнопка содержит только текст названия жанра */}
+            <Button 
+              variant="ghost" 
+              flex="1"
+              justifyContent="flex-start" 
+              paddingInlineStart={2}
+              whiteSpace="normal"
+              textAlign="left"
+              height="auto"
+              paddingY={1}
+              overflow="hidden"
+            >
+              <Text fontSize="lg" fontWeight="medium">
+                {genre.name}
+              </Text>
+            </Button>
+
           </HStack>
         </List.Item>
       ))}
