@@ -11,16 +11,16 @@ import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import useParentPlatform from "@/services/hooks/useParentPlatform";
 
 type Props = {
-  parentPlatformSlug: string | null;
-  onSelectPlatform: (slug: string | null) => void;
+  parentPlatformId: number | null;
+  onSelectPlatform: (id: number | null) => void;
 };
 
 const PlatformSelector: React.FC<Props> = ({
-  parentPlatformSlug,
+  parentPlatformId,
   onSelectPlatform,
 }) => {
-  const { data: platforms, error } = useParentPlatform(); 
-  const [open, setOpen] = useState(false);
+  const { data: platforms, error } = useParentPlatform();
+  const [isOpen, setIsOpen] = useState(false);
 
   const platformOptions = useMemo(() => {
     if (platforms.length === 0) return [];
@@ -29,20 +29,17 @@ const PlatformSelector: React.FC<Props> = ({
   }, [platforms]);
 
   const selectedPlatform = platformOptions.find(
-    (p) => p.slug === parentPlatformSlug
+    (p) => p.id === parentPlatformId,
   );
 
   if (error) return null;
 
   return (
-    <MenuRoot 
-      onOpenChange={(e) => setOpen(e.open)} 
-      unmountOnExit
-    >
+    <MenuRoot onOpenChange={(e) => setIsOpen(e.open)} unmountOnExit>
       <MenuTrigger asChild>
         <Button variant="outline" size="sm">
           {selectedPlatform?.name || "Platforms"}
-          {open ? <LuChevronUp /> : <LuChevronDown />}
+          {isOpen ? <LuChevronUp /> : <LuChevronDown />}
         </Button>
       </MenuTrigger>
 
@@ -50,9 +47,10 @@ const PlatformSelector: React.FC<Props> = ({
         {platformOptions.map((platform) => (
           <MenuItem
             key={platform.id}
-            value={platform.slug || "all"} // value нужен для Chakra
-            onClick={() => onSelectPlatform(platform.slug)}
-            closeOnSelect
+            value={platform.id.toString()} // Chakra просит строку для value
+            onClick={() =>
+              onSelectPlatform(platform.id === -1 ? null : platform.id)
+            }
           >
             {platform.name}
           </MenuItem>

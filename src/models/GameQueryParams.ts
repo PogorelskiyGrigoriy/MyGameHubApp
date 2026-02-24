@@ -1,6 +1,6 @@
 export type GameQueryParams = {
     genreSlug: string | null,
-    parentPlatformSlug: string | null,
+    parentPlatformId: number | null,
     searchStr: string | null,
     ordering: string | null
 };
