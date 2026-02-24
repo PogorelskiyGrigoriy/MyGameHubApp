@@ -3,9 +3,10 @@ import Nav from "./components/Nav";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import { useState } from "react";
+import type { GameQueryParams } from "./models/GameQueryParams";
 
 function App() {
-  const [genre, setGenre] = useState<string | null>(null);
+  const [gameQuery, setGameQuery] = useState<GameQueryParams>({} as GameQueryParams)
 
   return (
     <Grid
@@ -31,14 +32,14 @@ function App() {
           pr={2}
         >
           <GenreList
-           onGenreSelect={(genre: string | null) => setGenre(genre)}
-           selectedGenre={genre}
+           onGenreSelect={(genre: string | null) => setGameQuery({...gameQuery, genreSlug: genre})}
+           selectedGenre={gameQuery.genreSlug}
            />
         </Box>
       </GridItem>
 
       <GridItem area="main">
-        <GameGrid genre={genre} />
+        <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
   );

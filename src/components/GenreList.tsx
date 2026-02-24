@@ -1,6 +1,5 @@
 import { List, Text, HStack, Avatar, Button, Spinner } from "@chakra-ui/react";
 import useGenre from "@/services/hooks/useGenre";
-import type { Genre } from "@/models/fetch-types";
 import { type FC} from "react";
 
 type Props = {
