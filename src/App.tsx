@@ -4,6 +4,7 @@ import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import { useState } from "react";
 import type { GameQueryParams } from "./models/GameQueryParams";
+import PlatformSelector from "./components/PlatformSelector";
 
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQueryParams>(

@@ -18,7 +18,7 @@ export interface Genre {
 export interface Platform {
   id: number;
   name: string;
-  slug: string;
+  slug: string | null;
 }
 
 export interface ParentPlatform {

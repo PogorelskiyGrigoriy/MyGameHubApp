@@ -8,7 +8,6 @@ interface Props {
   game: Game;
 }
 
-// Компонент для отображения информации об игре
 const GameCard = ({ game }: Props) => {
   return (
     <Card.Root borderRadius={10} overflow="hidden">
@@ -21,18 +20,23 @@ const GameCard = ({ game }: Props) => {
         objectPosition="top"
       />
       <Card.Body>
-        <Heading fontSize="2xl" mb={2}>
+        <Heading fontSize="2xl" mb={4}>
           {game.name}
         </Heading>
 
-        <VStack alignItems="start" gap={3}>
-          <HStack justifyContent="space-between" width="100%" gap={3}>
-            <CriticScore metacritic={game.metacritic} />
-            <PlatformList platforms={game.parent_platforms} />
-          </HStack>
+        {/* Главный контейнер для футера карточки */}
+        <HStack justifyContent="space-between" alignItems="flex-end" width="full" gap={4}>
 
-          <StarsRater rating={game.rating} />
-        </VStack>
+          {/* Левая сторона: Рейтинги (в столбик) */}
+          <VStack alignItems="flex-start" gap={2} flexShrink={0}>
+            <CriticScore metacritic={game.metacritic} />
+            <StarsRater rating={game.rating} />
+          </VStack>
+
+          {/* Правая сторона: Платформы */}
+          <PlatformList platforms={game.parent_platforms} />
+
+        </HStack>
       </Card.Body>
     </Card.Root>
   );
