@@ -6,7 +6,9 @@ import { useState } from "react";
 import type { GameQueryParams } from "./models/GameQueryParams";
 
 function App() {
-  const [gameQuery, setGameQuery] = useState<GameQueryParams>({} as GameQueryParams)
+  const [gameQuery, setGameQuery] = useState<GameQueryParams>(
+    {} as GameQueryParams,
+  );
 
   return (
     <Grid
@@ -26,15 +28,16 @@ function App() {
       <GridItem area="aside" paddingX={5} hideBelow="md">
         <Box
           height="calc(100vh - 80px)"
-          overflowY="auto"       
+          overflowY="auto"
           position="sticky"
           top="80px"
           pr={2}
         >
           <GenreList
-           onGenreSelect={(genre: string | null) => setGameQuery({...gameQuery, genreSlug: genre})}
-           selectedGenre={gameQuery.genreSlug}
-           />
+
+            onGenreSelect={(slug) => setGameQuery({ ...gameQuery, genreSlug: slug })}
+            selectedGenre={gameQuery.genreSlug}
+          />
         </Box>
       </GridItem>
 
