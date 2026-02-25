@@ -1,7 +1,6 @@
 import { List, Text, HStack, Avatar, Button, Spinner, Box, Heading } from "@chakra-ui/react";
 import useGenre from "@/services/hooks/useGenre";
-import { type FC, useMemo } from "react";
-import { type Genre } from "@/models/fetch-types";
+import { type FC } from "react";
 
 type Props = {
   onGenreSelect: (genre: string | null) => void;
@@ -9,19 +8,8 @@ type Props = {
 };
 
 const GenreList: FC<Props> = ({ onGenreSelect, selectedGenreSlug }) => {
+  // Получаем уже готовые данные (включая "All Genres" из маппера в хуке)
   const { data: genres, isLoading, error } = useGenre();
-
-  const genreOptions = useMemo(() => {
-    if (genres.length === 0) return [];
-    const allGenresOption = {
-      id: -1,
-      name: "All Genres",
-      slug: null,
-      image_background: "",
-    } as unknown as Genre;
-
-    return [allGenresOption, ...genres];
-  }, [genres]);
 
   if (error) {
     return (
@@ -39,16 +27,17 @@ const GenreList: FC<Props> = ({ onGenreSelect, selectedGenreSlug }) => {
 
       <Box 
         flex="1" 
-        overflowY="auto"   // Вертикальный скролл оставляем
-        overflowX="hidden" // 1. Убираем горизонтальный скролл
-        pr={2}             // Отступ справа, чтобы скроллбар не "прилипал" к тексту
+        overflowY="auto" 
+        overflowX="hidden" 
+        pr={2}
       >
         <List.Root variant="plain">
-          {genreOptions.map((genre) => (
+          {genres.map((genre) => (
             <List.Item key={genre.id} mb={3}>
-              <HStack gap={2} align="start" width="full"> {/* Изменили align на "start" для длинных названий */}
-                <Avatar.Root size="sm" flexShrink={0} mt={1}> {/* Добавили отступ сверху для выравнивания с текстом */}
-                  {genre.slug ? (
+              <HStack gap={2} align="start" width="full">
+                <Avatar.Root size="sm" flexShrink={0} mt={1}>
+                  {/* Теперь у нас slug есть всегда, кроме случая, если в маппере мы его не задали */}
+                  {genre.slug !== "_all" ? (
                     <Avatar.Image
                       src={genre.image_background}
                       objectFit="cover"
@@ -63,20 +52,24 @@ const GenreList: FC<Props> = ({ onGenreSelect, selectedGenreSlug }) => {
                 </Avatar.Root>
 
                 <Button
-                  onClick={() => onGenreSelect(genre.slug)}
+                  onClick={() => onGenreSelect(genre.slug === "_all" ? null : genre.slug)}
                   variant="plain"
                   fontSize="lg"
-                  fontWeight={genre.slug === selectedGenreSlug ? "bold" : "normal"}
-                  color={genre.slug === selectedGenreSlug ? "fg" : "fg.muted"}
+                  fontWeight={
+                    (genre.slug === selectedGenreSlug) || (genre.slug === "_all" && !selectedGenreSlug) 
+                    ? "bold" 
+                    : "normal"
+                  }
+                  color={
+                    (genre.slug === selectedGenreSlug) || (genre.slug === "_all" && !selectedGenreSlug)
+                    ? "fg" 
+                    : "fg.muted"}
                   justifyContent="flex-start"
                   textAlign="left"
                   paddingX="0"
-                  
-                  // 2. Позволяем переносить слова на новую строчку
                   whiteSpace="normal" 
-                  height="auto" // Важно: для переноса текста высота должна подстраиваться
+                  height="auto"
                   lineHeight="short"
-                  
                   _hover={{
                     textDecoration: "underline",
                     color: "fg",
