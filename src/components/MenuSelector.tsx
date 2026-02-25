@@ -9,22 +9,23 @@ import { useState } from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 
 /**
- * Интерфейс пропсов с использованием Generic (T).
- * Это позволяет компоненту работать с любым типом данных (Genre, Platform и т.д.)
+ * Props interface using a Generic type (T).
+ * This allows the component to handle any data type (Genre, Platform, etc.)
+ * while maintaining strict type safety.
  */
 interface Props<T> {
-  data: T[]; // Массив объектов любого типа
-  selectedItem: T | undefined; // Текущий выбранный объект из этого массива
-  onSelect: (item: T) => void; // Колбэк, вызываемый при клике на элемент списка
-  labelPrefix?: string; // Необязательный текст перед значением (например, "Sort by:")
-  defaultLabel: string; // Текст, который виден, если ничего не выбрано (например, "Genres")
-  getLabel: (item: T) => string; // Функция-хелпер: как достать отображаемое имя из объекта T
-  getValue: (item: T) => string | number; // Функция-хелпер: как достать уникальный ключ (id/slug) из объекта T
+  data: T[]; // Array of items to display in the dropdown
+  selectedItem: T | undefined; // The currently active/selected item
+  onSelect: (item: T) => void; // Callback function triggered when an item is clicked
+  labelPrefix?: string; // Optional prefix for the button text (e.g., "Sort by:")
+  defaultLabel: string; // Placeholder text when no item is selected
+  getLabel: (item: T) => string; // Helper function to extract the display name from object T
+  getValue: (item: T) => string | number; // Helper function to extract a unique key (id/slug) from object T
 }
 
 /**
- * MenuSelector — это абстракция над выпадающим списком.
- * Синтаксис <T,> сообщает TypeScript, что это Generic-компонент.
+ * A reusable, generic dropdown selector component built with Chakra UI.
+ * The <T,> syntax tells TypeScript this is a Generic component.
  */
 const MenuSelector = <T,>({
   data,
@@ -35,43 +36,42 @@ const MenuSelector = <T,>({
   getLabel,
   getValue,
 }: Props<T>) => {
-  // Локальное состояние только для анимации иконки (стрелочка вверх/вниз)
+  // Local state to manage the chevron icon orientation (up/down)
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <MenuRoot 
-      // Синхронизируем состояние открытия с библиотечным компонентом
+      // Synchronize internal open state with the menu component
       onOpenChange={(e) => setIsOpen(e.open)} 
-      // Удаляем из DOM при закрытии для оптимизации
+      // Improve performance by removing hidden menu items from the DOM
       unmountOnExit 
     >
       <MenuTrigger asChild>
         <Button variant="outline" size="sm">
-          {/* Если есть префикс — рисуем его. 
-            Если выбран элемент — достаем его имя через getLabel, иначе пишем дефолтный текст.
+          {/* Renders: [Prefix] [Selected Item Name OR Default Label] 
+            Example: "Ordering by: Relevance"
           */}
           {labelPrefix} {selectedItem ? getLabel(selectedItem) : defaultLabel}
           
-          {/* Динамическая иконка в зависимости от состояния isOpen */}
+          {/* Dynamic icon feedback based on menu state */}
           {isOpen ? <LuChevronUp /> : <LuChevronDown />}
         </Button>
       </MenuTrigger>
 
       <MenuContent 
-        portalled // Рендерит меню в отдельном слое (портале), чтобы избежать обрезки в контейнерах с overflow
-        maxH="400px" // Ограничиваем высоту для длинных списков (актуально для жанров)
-        overflowY="auto" // Включаем внутреннюю прокрутку
+        portalled // Renders in a React Portal to prevent clipping by parent containers with overflow:hidden
+        maxH="400px" // Limits height and enables scrolling for long lists
+        overflowY="auto"
       >
         {data.map((item) => (
           <MenuItem
-            // Используем хелпер getValue для получения уникального React key
+            // Unique key for React reconciliation
             key={getValue(item)}
-            // Chakra UI требует, чтобы value в MenuItem было строкой
+            // Chakra UI expects a string for the value prop
             value={getValue(item).toString()}
-            // При клике прокидываем весь объект обратно родителю
+            // Returns the entire object T to the parent component upon selection
             onClick={() => onSelect(item)}
           >
-            {/* Используем хелпер getLabel для отрисовки текста в списке */}
             {getLabel(item)}
           </MenuItem>
         ))}

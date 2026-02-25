@@ -10,7 +10,8 @@ export default function useGame(gameQuery: GameQueryParams) {
         genres: gameQuery.genreSlug,
         parent_platforms: gameQuery.parentPlatformId,
         ordering: gameQuery.ordering,
-        search: gameQuery.searchStr,
+        search: gameQuery.searchText,
+
       },
     },
     // Передаем массив примитивов. 
@@ -19,7 +20,7 @@ export default function useGame(gameQuery: GameQueryParams) {
       gameQuery.genreSlug,
       gameQuery.parentPlatformId,
       gameQuery.ordering,
-      gameQuery.searchStr
+      gameQuery.searchText
     ]
   )
 }

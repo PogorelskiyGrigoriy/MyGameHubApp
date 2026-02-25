@@ -14,7 +14,8 @@ function App() {
     genreSlug: null,
     parentPlatformId: null,
     searchStr: null,
-    ordering: null
+    ordering: null,
+    searchText: null
   } as GameQueryParams);
 
   return (
@@ -29,7 +30,7 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <Nav />
+        <Nav onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })} />
       </GridItem>
 
       <GridItem
