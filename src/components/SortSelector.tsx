@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/menu";
 import React, { useState } from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
-import { SORT_CONFIG } from "@/models/SortOption"; // Импорт конфига
+import { SORT_CONFIG } from "@/models/SortParams";
 
 type Props = {
   sortOrder: string | null;
@@ -26,7 +26,7 @@ const SortSelector: React.FC<Props> = ({ sortOrder, onSelectSortOrder }) => {
     <MenuRoot onOpenChange={(e) => setIsOpen(e.open)} unmountOnExit>
       <MenuTrigger asChild>
         <Button variant="outline" size="sm">
-          {/* Если ничего не выбрано, пишем "Relevance" или "Sort by" */}
+          {/* Если ничего не выбрано, пишем "Relevance" */}
           Ordering by: {currentSortOption?.label || "Relevance"}
           {isOpen ? <LuChevronUp /> : <LuChevronDown />}
         </Button>

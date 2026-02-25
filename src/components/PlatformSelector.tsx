@@ -5,8 +5,7 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "@/components/ui/menu";
-import { type Platform } from "@/models/fetch-types";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import useParentPlatform from "@/services/hooks/useParentPlatform";
 
@@ -19,18 +18,12 @@ const PlatformSelector: React.FC<Props> = ({
   parentPlatformId,
   onSelectPlatform,
 }) => {
+  // Хук теперь сам возвращает массив с добавленным "All" благодаря mapper в useData
   const { data: platforms, error } = useParentPlatform();
   const [isOpen, setIsOpen] = useState(false);
 
-  const platformOptions = useMemo(() => {
-    if (platforms.length === 0) return [];
-    const allOption = { id: -1, name: "All", slug: null } as Platform;
-    return [allOption, ...platforms];
-  }, [platforms]);
-
-  const selectedPlatform = platformOptions.find(
-    (p) => p.id === parentPlatformId,
-  );
+  // Ищем выбранную платформу сразу в полученных данных
+  const selectedPlatform = platforms.find((p) => p.id === parentPlatformId);
 
   if (error) return null;
 
@@ -44,11 +37,12 @@ const PlatformSelector: React.FC<Props> = ({
       </MenuTrigger>
 
       <MenuContent>
-        {platformOptions.map((platform) => (
+        {platforms.map((platform) => (
           <MenuItem
             key={platform.id}
-            value={platform.id.toString()} // Chakra просит строку для value
+            value={platform.id.toString()}
             onClick={() =>
+              // Если выбрано "All" (id: -1), передаем null в родительский App
               onSelectPlatform(platform.id === -1 ? null : platform.id)
             }
           >
