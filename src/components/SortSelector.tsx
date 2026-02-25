@@ -1,13 +1,6 @@
-import { Button } from "@chakra-ui/react";
-import {
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
-} from "@/components/ui/menu";
-import React, { useState } from "react";
-import { LuChevronDown, LuChevronUp } from "react-icons/lu";
+import React from "react";
 import { SORT_CONFIG } from "@/models/SortParams";
+import MenuSelector from "./MenuSelector";
 
 type Props = {
   sortOrder: string | null;
@@ -15,35 +8,18 @@ type Props = {
 };
 
 const SortSelector: React.FC<Props> = ({ sortOrder, onSelectSortOrder }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Ищем текущую опцию внутри массива из конфигурации
-  const currentSortOption = SORT_CONFIG.sortOptions.find(
-    (o) => o.value === sortOrder
-  );
+  const options = SORT_CONFIG.sortOptions;
 
   return (
-    <MenuRoot onOpenChange={(e) => setIsOpen(e.open)} unmountOnExit>
-      <MenuTrigger asChild>
-        <Button variant="outline" size="sm">
-          {/* Если ничего не выбрано, пишем "Relevance" */}
-          Ordering by: {currentSortOption?.label || "Relevance"}
-          {isOpen ? <LuChevronUp /> : <LuChevronDown />}
-        </Button>
-      </MenuTrigger>
-
-      <MenuContent>
-        {SORT_CONFIG.sortOptions.map((option) => (
-          <MenuItem
-            key={option.value}
-            value={option.value}
-            onClick={() => onSelectSortOrder(option.value || null)}
-          >
-            {option.label}
-          </MenuItem>
-        ))}
-      </MenuContent>
-    </MenuRoot>
+    <MenuSelector
+      data={options}
+      selectedItem={options.find((o) => o.value === sortOrder)}
+      onSelect={(o) => onSelectSortOrder(o.value || null)}
+      labelPrefix="Ordering by:"
+      defaultLabel="Relevance"
+      getLabel={(o) => o.label}
+      getValue={(o) => o.value}
+    />
   );
 };
 
