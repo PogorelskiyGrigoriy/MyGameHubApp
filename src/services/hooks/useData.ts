@@ -4,12 +4,12 @@ import {type FetchResponse } from '@/models/fetch-types';
 import type { AxiosError, AxiosRequestConfig } from 'axios';
 
 
-// useData.ts
+// Универсальный хук для получения данных с API. Принимает endpoint, конфиг для запроса, зависимости для useEffect и необязательный mapper для трансформации данных.
 export default function useData<T>(
   endpoint: string, 
   config?: AxiosRequestConfig, 
   deps?: DependencyList,
-  mapper?: (data: T[]) => T[] // Добавляем функцию-трансформер
+  mapper?: (data: T[]) => T[] // Если нужно трансформировать данные перед сохранением в стейт, можно передать функцию mapper. Она будет вызвана с массивом данных из ответа, и должна вернуть новый массив.
 ): { data: T[], isLoading: boolean, error: string } {
   const [data, setData] = React.useState<T[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
