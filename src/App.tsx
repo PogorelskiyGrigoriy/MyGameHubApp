@@ -6,7 +6,7 @@ import { useState } from "react";
 import type { GameQueryParams } from "./models/GameQueryParams";
 import PlatformSelector from "./components/PlatformSelector";
 import GenreSelector from "./components/GenreSelector";
-import SortSelector from "./components/SortSelector"; 
+import SortSelector from "./components/SortSelector";
 
 function App() {
   // Инициализируем состояние явно для безопасности типов
@@ -15,7 +15,7 @@ function App() {
     parentPlatformId: null,
     searchStr: null,
     ordering: null,
-    searchText: null
+    searchText: null,
   } as GameQueryParams);
 
   return (
@@ -26,11 +26,13 @@ function App() {
       }}
       templateColumns={{
         base: "1fr",
-        lg: "250px 1fr", 
+        lg: "250px 1fr",
       }}
     >
       <GridItem area="nav">
-        <Nav onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })} />
+        <Nav
+          onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })}
+        />
       </GridItem>
 
       <GridItem
@@ -38,14 +40,11 @@ function App() {
         display={{ base: "none", lg: "block" }}
         paddingX={5}
       >
-        <Box
-          position="sticky"
-          top="80px"
-          height="calc(100vh - 100px)"
-        >
+        <Box position="sticky" top="80px" height="calc(100vh - 100px)">
           <GenreList
             selectedGenreSlug={gameQuery.genreSlug}
             onGenreSelect={(slug) =>
+              gameQuery.genreSlug != slug &&
               setGameQuery({ ...gameQuery, genreSlug: slug })
             }
           />
@@ -56,9 +55,12 @@ function App() {
         <HStack gap={5} paddingLeft={2} marginBottom={5} flexWrap="wrap">
           {/* Селектор жанров для мобильных */}
           <Box display={{ base: "block", lg: "none" }}>
-            <GenreSelector 
+            <GenreSelector
               selectedGenreSlug={gameQuery.genreSlug}
-              onSelectGenre={(slug) => setGameQuery({ ...gameQuery, genreSlug: slug })}
+              onSelectGenre={(slug) =>
+                gameQuery.genreSlug != slug &&
+                setGameQuery({ ...gameQuery, genreSlug: slug })
+              }
             />
           </Box>
 
@@ -66,16 +68,20 @@ function App() {
           <PlatformSelector
             parentPlatformId={gameQuery.parentPlatformId}
             onSelectPlatform={(id) => {
-              setGameQuery({ ...gameQuery, parentPlatformId: id });
+              if (gameQuery.parentPlatformId !== id) {
+                setGameQuery({ ...gameQuery, parentPlatformId: id });
+              }
             }}
           />
 
           {/* Cелектор сортировки */}
-          <SortSelector 
+          <SortSelector
             sortOrder={gameQuery.ordering}
-            onSelectSortOrder={(sortOrder) => 
-              setGameQuery({ ...gameQuery, ordering: sortOrder })
-            }
+            onSelectSortOrder={(sortOrder) => {
+              if (gameQuery.ordering !== sortOrder) {
+                setGameQuery({ ...gameQuery, ordering: sortOrder });
+              }
+            }}
           />
         </HStack>
 
