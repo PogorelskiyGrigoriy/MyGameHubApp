@@ -1,6 +1,6 @@
 import { SORT_CONFIG } from "@/models/SortParams";
 import MenuSelector from "./MenuSelector";
-import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем наш стор
+import useGameQueryStore from "../store/useGameQueryStore";
 
 const SortSelector = () => {
   // Достаем текущий порядок сортировки и экшен для его изменения

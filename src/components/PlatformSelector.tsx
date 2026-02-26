@@ -1,6 +1,6 @@
 import useParentPlatform from "@/services/hooks/useParentPlatform";
 import MenuSelector from "./MenuSelector";
-import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем стор
+import useGameQueryStore from "../store/useGameQueryStore"; 
 
 const PlatformSelector = () => {
   // Достаем ID платформы и функцию его установки

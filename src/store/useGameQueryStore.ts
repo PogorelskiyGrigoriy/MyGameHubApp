@@ -5,7 +5,6 @@ type GameQueryStore = {
   parentPlatformId: number | null;
   ordering: string | null;
   searchText: string | null;
-  // Actions to update individual state properties
   setSearchText: (searchText: string) => void;
   setGenreSlug: (genreSlug: string | null) => void;
   setPlatformId: (platformId: number | null) => void;
@@ -13,35 +12,22 @@ type GameQueryStore = {
 };
 
 const useGameQueryStore = create<GameQueryStore>((set) => ({
-
   genreSlug: null,
   parentPlatformId: null,
   ordering: null,
   searchText: null,
 
   setSearchText: (searchText) =>
-    set((state) => ({ 
-      ...state, 
-      searchText 
-    })),
+    set((state) => (state.searchText === searchText ? state : { searchText })),
 
   setGenreSlug: (genreSlug) =>
-    set((state) => ({ 
-      ...state, 
-      genreSlug 
-    })),
+    set((state) => (state.genreSlug === genreSlug ? state : { genreSlug })),
 
   setPlatformId: (parentPlatformId) =>
-    set((state) => ({ 
-      ...state, 
-      parentPlatformId 
-    })),
+    set((state) => (state.parentPlatformId === parentPlatformId ? state : { parentPlatformId })),
 
   setSortOrder: (ordering) =>
-    set((state) => ({ 
-      ...state, 
-      ordering 
-    })),
+    set((state) => (state.ordering === ordering ? state : { ordering })),
 }));
 
 export default useGameQueryStore;
