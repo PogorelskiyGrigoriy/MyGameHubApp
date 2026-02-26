@@ -1,13 +1,12 @@
-import React from "react";
 import useGenre from "@/services/hooks/useGenre";
 import MenuSelector from "./MenuSelector";
+import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем стор
 
-type Props = {
-  selectedGenreSlug: string | null;
-  onSelectGenre: (slug: string | null) => void;
-};
+const GenreSelector = () => {
+  // Достаем данные и экшен из Zustand
+  const selectedGenreSlug = useGameQueryStore((s) => s.genreSlug);
+  const setGenreSlug = useGameQueryStore((s) => s.setGenreSlug);
 
-const GenreSelector: React.FC<Props> = ({ selectedGenreSlug, onSelectGenre }) => {
   const { data: genres, error } = useGenre();
 
   if (error) return null;
@@ -15,8 +14,10 @@ const GenreSelector: React.FC<Props> = ({ selectedGenreSlug, onSelectGenre }) =>
   return (
     <MenuSelector
       data={genres}
+      // Находим выбранный объект для отображения в кнопке меню
       selectedItem={genres.find((g) => g.slug === selectedGenreSlug)}
-      onSelect={(g) => onSelectGenre(g.slug === "_all" ? null : g.slug)}
+      // Вызываем экшен стора напрямую
+      onSelect={(g) => setGenreSlug(g.slug === "_all" ? null : g.slug)}
       defaultLabel="Genres"
       getLabel={(g) => g.name}
       getValue={(g) => g.slug}

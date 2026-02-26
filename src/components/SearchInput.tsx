@@ -2,18 +2,16 @@ import { Input, IconButton } from "@chakra-ui/react";
 import { InputGroup } from "@chakra-ui/react";
 import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
+import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем наш стор
 
-interface Props {
-  onSearch: (searchText: string) => void;
-}
-
-const SearchInput = ({ onSearch }: Props) => {
+const SearchInput = () => {
+  // Получаем функцию установки текста из Zustand
+  const setSearchText = useGameQueryStore((s) => s.setSearchText);
   const ref = useRef<HTMLInputElement>(null);
 
-  // Общая функция для запуска поиска
   const handleSearch = () => {
     if (ref.current) {
-      onSearch(ref.current.value);
+      setSearchText(ref.current.value);
     }
   };
 
@@ -27,17 +25,15 @@ const SearchInput = ({ onSearch }: Props) => {
     >
       <InputGroup
         width="full"
-        // Используем startElement, но делаем его интерактивным
         startElement={
           <IconButton
             variant="ghost"
             aria-label="Search games"
             size="sm"
-            onClick={handleSearch} // Теперь клик по кнопке вызовет поиск
-            // Важно: в Chakra v3 иногда нужно явно разрешить кнопке "ловить" клики
-            pointerEvents="auto" 
+            onClick={handleSearch}
+            pointerEvents="auto"
             css={{
-                zIndex: 1, // Поднимаем кнопку над инпутом
+              zIndex: 1,
             }}
           >
             <BsSearch color="gray.500" />
@@ -49,8 +45,7 @@ const SearchInput = ({ onSearch }: Props) => {
           placeholder="Search games..."
           variant="subtle"
           borderRadius={20}
-          // Добавляем небольшой отступ слева, чтобы текст не наезжал на кнопку-лупу
-          ps="12" 
+          ps="12"
         />
       </InputGroup>
     </form>

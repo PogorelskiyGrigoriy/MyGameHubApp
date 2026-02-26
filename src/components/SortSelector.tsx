@@ -1,20 +1,21 @@
-import React from "react";
 import { SORT_CONFIG } from "@/models/SortParams";
 import MenuSelector from "./MenuSelector";
+import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем наш стор
 
-type Props = {
-  sortOrder: string | null;
-  onSelectSortOrder: (sortOrder: string | null) => void;
-};
+const SortSelector = () => {
+  // Достаем текущий порядок сортировки и экшен для его изменения
+  const sortOrder = useGameQueryStore((s) => s.ordering);
+  const setSortOrder = useGameQueryStore((s) => s.setSortOrder);
 
-const SortSelector: React.FC<Props> = ({ sortOrder, onSelectSortOrder }) => {
   const options = SORT_CONFIG.sortOptions;
 
   return (
     <MenuSelector
       data={options}
+      // Находим выбранную опцию для отображения в кнопке
       selectedItem={options.find((o) => o.value === sortOrder)}
-      onSelect={(o) => onSelectSortOrder(o.value || null)}
+      // Вызываем экшен стора напрямую
+      onSelect={(o) => setSortOrder(o.value || null)}
       labelPrefix="Ordering by:"
       defaultLabel="Relevance"
       getLabel={(o) => o.label}

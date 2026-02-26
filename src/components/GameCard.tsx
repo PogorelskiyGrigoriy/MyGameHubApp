@@ -4,9 +4,14 @@ import CriticScore from "./MetacriticScore";
 import StarsRater from "./StarsRater";
 import PlatformList from "./PlatformList";
 
-interface Props {
+/**
+ * We use 'type' here to stay consistent with the rest of the application.
+ * GameCard remains a "pure" or "dumb" component because it only displays 
+ * data passed via props and doesn't depend on the global store.
+ */
+type Props = {
   game: Game;
-}
+};
 
 const GameCard = ({ game }: Props) => {
   return (
@@ -24,18 +29,21 @@ const GameCard = ({ game }: Props) => {
           {game.name}
         </Heading>
 
-        {/* Главный контейнер для футера карточки */}
-        <HStack justifyContent="space-between" alignItems="flex-end" width="full" gap={4}>
-
-          {/* Левая сторона: Рейтинги (в столбик) */}
+        {/* Main container for the card footer info */}
+        <HStack 
+          justifyContent="space-between" 
+          alignItems="flex-end" 
+          width="full" 
+          gap={4}
+        >
+          {/* Left side: Ratings and Scores (stacked vertically) */}
           <VStack alignItems="flex-start" gap={2} flexShrink={0}>
             <CriticScore metacritic={game.metacritic} />
             <StarsRater rating={game.rating} />
           </VStack>
 
-          {/* Правая сторона: Платформы */}
+          {/* Right side: Available Platforms */}
           <PlatformList platforms={game.parent_platforms} />
-
         </HStack>
       </Card.Body>
     </Card.Root>

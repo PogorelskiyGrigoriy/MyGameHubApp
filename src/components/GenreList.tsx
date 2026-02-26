@@ -1,14 +1,12 @@
 import { List, Text, HStack, Avatar, Button, Spinner, Box, Heading } from "@chakra-ui/react";
 import useGenre from "@/services/hooks/useGenre";
-import { type FC } from "react";
+import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем стор
 
-type Props = {
-  onGenreSelect: (genre: string | null) => void;
-  selectedGenreSlug: string | null;
-};
+const GenreList = () => {
+  // 1. Подписываемся на конкретные примитивы из плоского стора
+  const selectedGenreSlug = useGameQueryStore((s) => s.genreSlug);
+  const setGenreSlug = useGameQueryStore((s) => s.setGenreSlug);
 
-const GenreList: FC<Props> = ({ onGenreSelect, selectedGenreSlug }) => {
-  // Получаем уже готовые данные (включая "All Genres" из маппера в хуке)
   const { data: genres, isLoading, error } = useGenre();
 
   if (error) {
@@ -36,7 +34,6 @@ const GenreList: FC<Props> = ({ onGenreSelect, selectedGenreSlug }) => {
             <List.Item key={genre.id} mb={3}>
               <HStack gap={2} align="start" width="full">
                 <Avatar.Root size="sm" flexShrink={0} mt={1}>
-                  {/* Теперь у нас slug есть всегда, кроме случая, если в маппере мы его не задали */}
                   {genre.slug !== "_all" ? (
                     <Avatar.Image
                       src={genre.image_background}
@@ -52,7 +49,8 @@ const GenreList: FC<Props> = ({ onGenreSelect, selectedGenreSlug }) => {
                 </Avatar.Root>
 
                 <Button
-                  onClick={() => onGenreSelect(genre.slug === "_all" ? null : genre.slug)}
+                  // 2. Используем экшен из стора напрямую
+                  onClick={() => setGenreSlug(genre.slug === "_all" ? null : genre.slug)}
                   variant="plain"
                   fontSize="lg"
                   fontWeight={
