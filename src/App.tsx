@@ -13,7 +13,6 @@ function App() {
   const [gameQuery, setGameQuery] = useState<GameQueryParams>({
     genreSlug: null,
     parentPlatformId: null,
-    searchStr: null,
     ordering: null,
     searchText: null,
   } as GameQueryParams);
@@ -44,7 +43,6 @@ function App() {
           <GenreList
             selectedGenreSlug={gameQuery.genreSlug}
             onGenreSelect={(slug) =>
-              gameQuery.genreSlug != slug &&
               setGameQuery({ ...gameQuery, genreSlug: slug })
             }
           />
@@ -58,7 +56,6 @@ function App() {
             <GenreSelector
               selectedGenreSlug={gameQuery.genreSlug}
               onSelectGenre={(slug) =>
-                gameQuery.genreSlug != slug &&
                 setGameQuery({ ...gameQuery, genreSlug: slug })
               }
             />
@@ -68,9 +65,7 @@ function App() {
           <PlatformSelector
             parentPlatformId={gameQuery.parentPlatformId}
             onSelectPlatform={(id) => {
-              if (gameQuery.parentPlatformId !== id) {
-                setGameQuery({ ...gameQuery, parentPlatformId: id });
-              }
+              setGameQuery({ ...gameQuery, parentPlatformId: id });
             }}
           />
 
@@ -78,9 +73,7 @@ function App() {
           <SortSelector
             sortOrder={gameQuery.ordering}
             onSelectSortOrder={(sortOrder) => {
-              if (gameQuery.ordering !== sortOrder) {
-                setGameQuery({ ...gameQuery, ordering: sortOrder });
-              }
+              setGameQuery({ ...gameQuery, ordering: sortOrder });
             }}
           />
         </HStack>

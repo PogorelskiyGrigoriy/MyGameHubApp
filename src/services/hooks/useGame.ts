@@ -11,7 +11,6 @@ export default function useGame(gameQuery: GameQueryParams) {
         parent_platforms: gameQuery.parentPlatformId,
         ordering: gameQuery.ordering,
         search: gameQuery.searchText,
-
       },
     },
     // Передаем массив примитивов. 

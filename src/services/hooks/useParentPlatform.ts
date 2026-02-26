@@ -1,4 +1,3 @@
-// useParentPlatform.ts
 import { type Platform } from "@/models/fetch-types";
 import useData from "./useData";
 
