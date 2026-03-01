@@ -3,7 +3,6 @@ import MenuSelector from "./MenuSelector";
 import useGameQueryStore from "../store/useGameQueryStore"; 
 
 const PlatformSelector = () => {
-  // Достаем ID платформы и функцию его установки
   const selectedPlatformId = useGameQueryStore((s) => s.parentPlatformId);
   const setPlatformId = useGameQueryStore((s) => s.setPlatformId);
 
@@ -13,10 +12,10 @@ const PlatformSelector = () => {
 
   return (
     <MenuSelector
-      data={platforms}
-      // Находим текущую платформу в списке для отображения названия
-      selectedItem={platforms.find((p) => p.id === selectedPlatformId)}
-      // Вызываем экшен стора. Если ID -1 (наш "All"), шлем null
+      // Передаем пустой массив по умолчанию
+      data={platforms || []}
+      // Безопасный поиск через опциональную цепочку
+      selectedItem={platforms?.find((p) => p.id === selectedPlatformId)}
       onSelect={(p) => setPlatformId(p.id === -1 ? null : p.id)}
       defaultLabel="Platforms"
       getLabel={(p) => p.name}

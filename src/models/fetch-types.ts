@@ -1,32 +1,31 @@
-export interface Game {
+export type Game = {
   id: number;
   name: string;
   background_image: string;
   metacritic: number;
   rating: number;
   parent_platforms: ParentPlatform[];
-}
+};
 
-export interface Genre {
+export type Genre = {
   id: number;
   name: string;
   slug: string;
-  games_count: number,
-  image_background: string
-}
+  games_count: number;
+  image_background: string;
+};
 
-export interface Platform {
+export type Platform = {
   id: number;
   name: string;
   slug: string | null;
-}
+};
 
-export interface ParentPlatform {
+export type ParentPlatform = {
   platform: Platform;
-}
+};
 
-export interface FetchResponse<T> {
+export type FetchResponse<T> = {
   count: number;
   results: T[]; 
-}
-
+};

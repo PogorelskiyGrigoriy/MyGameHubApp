@@ -3,7 +3,7 @@ export type SortOption = {
   label: string;
 };
 
-export const SORT_CONFIG: { sortOptions: SortOption[] } = {
+export const SORT_CONFIG = {
   sortOptions: [
     { value: "", label: "No Ordering" },
     { value: "-released", label: "Release Date" },
@@ -14,4 +14,4 @@ export const SORT_CONFIG: { sortOptions: SortOption[] } = {
     { value: "-metacritic", label: "Critic Score" },
     { value: "name", label: "Name" },
   ]
-};
+} as const; // Делает объект доступным только для чтения и уточняет типы строк

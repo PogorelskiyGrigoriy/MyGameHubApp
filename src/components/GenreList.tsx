@@ -1,9 +1,8 @@
 import { List, Text, HStack, Avatar, Button, Spinner, Box, Heading } from "@chakra-ui/react";
 import useGenre from "@/services/hooks/useGenre";
-import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем стор
+import useGameQueryStore from "../store/useGameQueryStore";
 
 const GenreList = () => {
-  // 1. Подписываемся на конкретные примитивы из плоского стора
   const selectedGenreSlug = useGameQueryStore((s) => s.genreSlug);
   const setGenreSlug = useGameQueryStore((s) => s.setGenreSlug);
 
@@ -11,8 +10,8 @@ const GenreList = () => {
 
   if (error) {
     return (
-      <Text color="red" fontSize={"1.5rem"} fontWeight={"bold"}>
-        {error}
+      <Text color="red" fontSize={"1.2rem"} fontWeight={"bold"}>
+        {error.message}
       </Text>
     );
   }
@@ -23,14 +22,9 @@ const GenreList = () => {
       
       {isLoading && <Spinner mb={4} />}
 
-      <Box 
-        flex="1" 
-        overflowY="auto" 
-        overflowX="hidden" 
-        pr={2}
-      >
+      <Box flex="1" overflowY="auto" overflowX="hidden" pr={2}>
         <List.Root variant="plain">
-          {genres.map((genre) => (
+          {genres?.map((genre) => (
             <List.Item key={genre.id} mb={3}>
               <HStack gap={2} align="start" width="full">
                 <Avatar.Root size="sm" flexShrink={0} mt={1}>
@@ -49,7 +43,6 @@ const GenreList = () => {
                 </Avatar.Root>
 
                 <Button
-                  // 2. Используем экшен из стора напрямую
                   onClick={() => setGenreSlug(genre.slug === "_all" ? null : genre.slug)}
                   variant="plain"
                   fontSize="lg"
@@ -71,9 +64,7 @@ const GenreList = () => {
                   _hover={{
                     textDecoration: "underline",
                     color: "fg",
-                    background: "bg.emphasized/5",
                   }}
-                  transition="all 0.2s"
                 >
                   {genre.name}
                 </Button>

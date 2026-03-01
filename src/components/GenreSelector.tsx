@@ -1,9 +1,8 @@
 import useGenre from "@/services/hooks/useGenre";
 import MenuSelector from "./MenuSelector";
-import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем стор
+import useGameQueryStore from "../store/useGameQueryStore";
 
 const GenreSelector = () => {
-  // Достаем данные и экшен из Zustand
   const selectedGenreSlug = useGameQueryStore((s) => s.genreSlug);
   const setGenreSlug = useGameQueryStore((s) => s.setGenreSlug);
 
@@ -13,10 +12,10 @@ const GenreSelector = () => {
 
   return (
     <MenuSelector
-      data={genres}
-      // Находим выбранный объект для отображения в кнопке меню
-      selectedItem={genres.find((g) => g.slug === selectedGenreSlug)}
-      // Вызываем экшен стора напрямую
+      // Передаем пустой массив, если данные еще грузятся, чтобы компонент не упал
+      data={genres || []}
+      // Безопасно ищем выбранный элемент
+      selectedItem={genres?.find((g) => g.slug === selectedGenreSlug)}
       onSelect={(g) => setGenreSlug(g.slug === "_all" ? null : g.slug)}
       defaultLabel="Genres"
       getLabel={(g) => g.name}

@@ -27,6 +27,7 @@ function App() {
         display={{ base: "none", lg: "block" }}
         paddingX={5}
       >
+        {/* Sticky Box гарантирует, что список жанров всегда под рукой при скролле игр */}
         <Box position="sticky" top="80px" height="calc(100vh - 100px)">
           <GenreList />
         </Box>
@@ -34,15 +35,12 @@ function App() {
 
       <GridItem area="main">
         <HStack gap={5} paddingLeft={2} marginBottom={5} flexWrap="wrap">
-          {/* Genre selector for mobile only */}
+          {/* Селектор жанров только для мобилок (вместо бокового списка) */}
           <Box display={{ base: "block", lg: "none" }}>
             <GenreSelector />
           </Box>
 
-          {/* Platform selector */}
           <PlatformSelector />
-
-          {/* Sort selector */}
           <SortSelector />
         </HStack>
 

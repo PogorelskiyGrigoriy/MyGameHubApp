@@ -2,16 +2,17 @@ import { Input, IconButton } from "@chakra-ui/react";
 import { InputGroup } from "@chakra-ui/react";
 import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
-import useGameQueryStore from "../store/useGameQueryStore"; // Импортируем наш стор
+import useGameQueryStore from "../store/useGameQueryStore"; 
 
 const SearchInput = () => {
-  // Получаем функцию установки текста из Zustand
   const setSearchText = useGameQueryStore((s) => s.setSearchText);
   const ref = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
     if (ref.current) {
       setSearchText(ref.current.value);
+      // Опционально: убираем фокус после нажатия Enter
+      ref.current.blur();
     }
   };
 
@@ -32,9 +33,7 @@ const SearchInput = () => {
             size="sm"
             onClick={handleSearch}
             pointerEvents="auto"
-            css={{
-              zIndex: 1,
-            }}
+            css={{ zIndex: 1 }}
           >
             <BsSearch color="gray.500" />
           </IconButton>

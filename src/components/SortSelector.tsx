@@ -3,7 +3,6 @@ import MenuSelector from "./MenuSelector";
 import useGameQueryStore from "../store/useGameQueryStore";
 
 const SortSelector = () => {
-  // Достаем текущий порядок сортировки и экшен для его изменения
   const sortOrder = useGameQueryStore((s) => s.ordering);
   const setSortOrder = useGameQueryStore((s) => s.setSortOrder);
 
@@ -12,9 +11,7 @@ const SortSelector = () => {
   return (
     <MenuSelector
       data={options}
-      // Находим выбранную опцию для отображения в кнопке
       selectedItem={options.find((o) => o.value === sortOrder)}
-      // Вызываем экшен стора напрямую
       onSelect={(o) => setSortOrder(o.value || null)}
       labelPrefix="Ordering by:"
       defaultLabel="Relevance"

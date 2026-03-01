@@ -6,12 +6,15 @@ interface Props {
 }
 
 const PlatformList = ({ platforms }: Props) => {
+  // Добавляем проверку, чтобы компонент не упал, если массив пуст
+  if (!platforms) return null;
+
   return (
     <HStack
       gap={2}
       flexWrap="wrap"
-      justifyContent="flex-end" // Прижимает элементы к правому краю контейнера
-      flex="1"                   // Позволяет контейнеру занять свободное место
+      justifyContent="flex-end"
+      flex="1"
     >
       {platforms.map(({ platform }) => (
         <Text
@@ -20,7 +23,7 @@ const PlatformList = ({ platforms }: Props) => {
           fontWeight="bold"
           color="gray.500"
           textTransform="uppercase"
-          textAlign="right"        // Выравнивает текст по правому краю
+          textAlign="right"
         >
           {platform.name}
         </Text>

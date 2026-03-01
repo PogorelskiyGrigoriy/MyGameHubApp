@@ -4,14 +4,12 @@ import useGame from "@/services/hooks/useGame";
 import useGameQueryStore from "../store/useGameQueryStore";
 
 const GameGrid = () => {
-  // 1. Извлекаем все нужные параметры из стора.
-  // Мы создаем объект "на лету", чтобы передать его в хук useGame.
+  // Извлекаем параметры из стора
   const genreSlug = useGameQueryStore((s) => s.genreSlug);
   const parentPlatformId = useGameQueryStore((s) => s.parentPlatformId);
   const ordering = useGameQueryStore((s) => s.ordering);
   const searchText = useGameQueryStore((s) => s.searchText);
 
-  // Собираем их в объект, который ожидает хук useGame (GameQueryParams)
   const gameQuery = {
     genreSlug,
     parentPlatformId,
@@ -21,26 +19,31 @@ const GameGrid = () => {
 
   const { data: games, isLoading, error } = useGame(gameQuery);
 
+  // В React Query error — это объект, берем message
+  if (error) {
+    return (
+      <Text color="red" fontSize={"2rem"} fontWeight={"bold"}>
+        {error.message}
+      </Text>
+    );
+  }
+
   return (
     <>
       {isLoading && <Spinner mb={4} />}
-      {error ? (
-        <Text color="red" fontSize={"3rem"} fontWeight={"bold"}>
-          {error}
-        </Text>
-      ) : (
-        <SimpleGrid
-          columns={{ base: 1, sm: 2, md: 2, lg: 3 }}
-          gap={6}
-          padding="10px"
-          overflow="auto"
-          maxHeight="80vh"
-        >
-          {games.map((game) => (
-            <GameCard key={game.id} game={game} />
-          ))}
-        </SimpleGrid>
-      )}
+      
+      <SimpleGrid
+        columns={{ base: 1, sm: 2, md: 2, lg: 3 }}
+        gap={6}
+        padding="10px"
+        overflow="auto"
+        maxHeight="80vh"
+      >
+        {/* Используем опциональную цепочку ?. так как до загрузки games === undefined */}
+        {games?.map((game) => (
+          <GameCard key={game.id} game={game} />
+        ))}
+      </SimpleGrid>
     </>
   );
 };
