@@ -22,29 +22,33 @@ function App() {
         <Nav />
       </GridItem>
 
+      {/* Боковая панель (Aside) */}
       <GridItem
         area="aside"
         display={{ base: "none", lg: "block" }}
         paddingX={5}
       >
-        {/* Sticky Box гарантирует, что список жанров всегда под рукой при скролле игр */}
-        <Box position="sticky" top="80px" height="calc(100vh - 100px)">
+        {/* Sticky позволяет списку жанров "залипать" при скролле основной страницы */}
+        <Box position="sticky" top="80px" height="calc(100vh - 100px)" overflowY="auto">
           <GenreList />
         </Box>
       </GridItem>
 
+      {/* Основной контент (Main) */}
       <GridItem area="main">
-        <HStack gap={5} paddingLeft={2} marginBottom={5} flexWrap="wrap">
-          {/* Селектор жанров только для мобилок (вместо бокового списка) */}
-          <Box display={{ base: "block", lg: "none" }}>
-            <GenreSelector />
-          </Box>
+        <Box paddingX={4}>
+          <HStack gap={5} marginBottom={5} flexWrap="wrap">
+            {/* Селектор жанров только для мобильной версии */}
+            <Box display={{ base: "block", lg: "none" }}>
+              <GenreSelector />
+            </Box>
 
-          <PlatformSelector />
-          <SortSelector />
-        </HStack>
+            <PlatformSelector />
+            <SortSelector />
+          </HStack>
 
-        <GameGrid />
+          <GameGrid />
+        </Box>
       </GridItem>
     </Grid>
   );

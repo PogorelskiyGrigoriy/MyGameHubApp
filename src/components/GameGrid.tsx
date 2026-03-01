@@ -1,50 +1,65 @@
-import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { SimpleGrid, Spinner, Text, Button, Box } from "@chakra-ui/react";
+import React from "react";
 import GameCard from "./GameCard";
 import useGame from "@/services/hooks/useGame";
 import useGameQueryStore from "../store/useGameQueryStore";
 
 const GameGrid = () => {
-  // Извлекаем параметры из стора
-  const genreSlug = useGameQueryStore((s) => s.genreSlug);
-  const parentPlatformId = useGameQueryStore((s) => s.parentPlatformId);
-  const ordering = useGameQueryStore((s) => s.ordering);
-  const searchText = useGameQueryStore((s) => s.searchText);
+  // Достаем все параметры фильтрации из Zustand
+  const gameQuery = useGameQueryStore();
 
-  const gameQuery = {
-    genreSlug,
-    parentPlatformId,
-    ordering,
-    searchText,
-  };
+  const { 
+    data, 
+    isLoading, 
+    error, 
+    fetchNextPage, 
+    hasNextPage, 
+    isFetchingNextPage 
+  } = useGame(gameQuery);
 
-  const { data: games, isLoading, error } = useGame(gameQuery);
-
-  // В React Query error — это объект, берем message
   if (error) {
     return (
-      <Text color="red" fontSize={"2rem"} fontWeight={"bold"}>
+      <Text color="red.500" fontSize="xl" fontWeight="bold">
         {error.message}
       </Text>
     );
   }
 
   return (
-    <>
-      {isLoading && <Spinner mb={4} />}
-      
+    <Box>
       <SimpleGrid
         columns={{ base: 1, sm: 2, md: 2, lg: 3 }}
         gap={6}
-        padding="10px"
-        overflow="auto"
-        maxHeight="80vh"
+        paddingY="10px"
       >
-        {/* Используем опциональную цепочку ?. так как до загрузки games === undefined */}
-        {games?.map((game) => (
-          <GameCard key={game.id} game={game} />
+        {/* Первичная загрузка */}
+        {isLoading && <Spinner color="blue.500" size="xl" />}
+        
+        {/* Отрисовка страниц данных */}
+        {data?.pages.map((page, index) => (
+          <React.Fragment key={index}>
+            {page.results.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </React.Fragment>
         ))}
       </SimpleGrid>
-    </>
+
+      {/* Кнопка "Load More" появляется только если есть следующая страница */}
+      {hasNextPage && (
+        <Box display="flex" justifyContent="center" mt={10} pb={10}>
+          <Button 
+            onClick={() => fetchNextPage()} 
+            loading={isFetchingNextPage}
+            size="lg"
+            variant="outline"
+            px={10}
+          >
+            {isFetchingNextPage ? "Loading more..." : "Load More"}
+          </Button>
+        </Box>
+      )}
+    </Box>
   );
 };
 
